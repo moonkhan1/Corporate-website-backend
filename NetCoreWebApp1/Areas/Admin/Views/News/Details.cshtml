@@ -1,0 +1,34 @@
+﻿@model Entities.News
+
+@{
+    ViewData["Title"] = "Xəbər detalları";
+}
+
+<div>
+    <h4>Xəbər</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd class = "col-sm-10">
+            <img src="/Img/@Html.DisplayFor(model => model.Image)" alt="" height="50" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary">Redaktə et</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Siyahıya qayıt</a>
+</div>
