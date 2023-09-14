@@ -19,7 +19,7 @@ namespace DAL
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-J45QUA4\SQL;Database=NetCoreWebApp1;User Id=sa;Password=40kup40daqulpuqirix;TrustServerCertificate=True;"); 
+            optionsBuilder.UseSqlServer(@"Server=(LocalDB)\SQL;Database=NetCoreWebApp1;User Id=sa;Password=40kup40daqulpuqirix;TrustServerCertificate=True;"); 
         }
         // FOR VERSION .NET 6 AND AFTER
         protected override void OnModelCreating(ModelBuilder modelBuilder)
