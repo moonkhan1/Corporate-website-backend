@@ -1,4 +1,5 @@
-﻿using DAL;
+﻿using BL;
+using DAL;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,11 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(
 //    builder.Configuration.GetConnectionString("NetCoreWebApp1") ??
 //    throw new InvalidOperationException("Connection string 'NetCoreWebApp1Context' not found.")));
 
-builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>)); // DI Implementation
 
+builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+builder.Services.AddRazorPages();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -37,9 +41,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthentication(); // Əvvəlcə UseAuthentication(login əməliyyatları) gəlməlidir sonra UseAuthorization (icazə kontrolu)

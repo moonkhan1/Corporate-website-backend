@@ -6,14 +6,13 @@ namespace NetCoreWebApp1.Controllers
 {
     public class PostsController : Controller
     {
-        PostManager postManager = new PostManager();
 
-        //DI ile servis kullanım
-        //private readonly IRepository<Post> _postService;
+        //DI ile servis isdifadesi
+        private readonly IRepository<Post> _postService;
 
-        public PostsController()
+        public PostsController(IRepository<Post> postService)
         {
-            //_postService = postService;
+            _postService = postService;
         }
 
         public async Task<IActionResult> Index(int? id)
@@ -25,14 +24,14 @@ namespace NetCoreWebApp1.Controllers
             }
             else
             {
-                var post = await postManager.GetAllList(x => x.CategoryId == id);
+                var post = await _postService.GetAllList(x => x.CategoryId == id);
                 return View(post);
             }
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            var foundPost = await postManager.Find(id);
+            var foundPost = await _postService.Find(id);
             return View(foundPost);
         }
     }

@@ -12,34 +12,30 @@ namespace NetCoreWebApp1.Controllers
         private readonly ILogger<HomeController> _logger;
 
         // With Dependency injection
-        //private readonly IRepository<Slider> _sliderService;
-        //private readonly IRepository<News> _newsService;
-        //private readonly IRepository<Post> _postService;
-        //private readonly IRepository<Contact> _contactService;
+        private readonly IRepository<Slider> _sliderService;
+        private readonly IRepository<News> _newsService;
+        private readonly IRepository<Post> _postService;
+        private readonly IRepository<Contact> _contactService;
 
 
-        CategoryManager categoryManager = new CategoryManager();
-        SliderManager sliderManager = new SliderManager();
-        NewsManager newsManager = new NewsManager();
-        PostManager postManager = new PostManager();
-        ContactManager contactManager = new ContactManager();
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRepository<Slider> sliderService, 
+            IRepository<News> newsService, IRepository<Post> postService, 
+            IRepository<Contact> contactService)
         {
             _logger = logger;
-            //_sliderService = sliderService;
-            //_newsService = newsService;
-            //_postService = postService;
-            //_contactService = contactService;
+            _sliderService = sliderService;
+            _newsService = newsService;
+            _postService = postService;
+            _contactService = contactService;
         }
 
         public async Task<IActionResult> Index()
         {
             var model = new HomePageViewModel()
             {
-                Sliders =  await sliderManager.GetAllListAsync(),//sliderManager
-                News = await newsManager.GetAllListAsync(),//newsManager
-                Posts = await postManager.GetAllListAsync(),//postManager
+                Sliders =  await _sliderService.GetAllListAsync(),//sliderManager
+                News = await _newsService.GetAllListAsync(),//newsManager
+                Posts = await _postService.GetAllListAsync(),//postManager
             };
             return View(model);
         }
@@ -62,7 +58,7 @@ namespace NetCoreWebApp1.Controllers
                 {
                     contact.CreationDate = DateTime.Now;
                     var isMailSent = MailHelper.SendMail(contact);
-                    var result = await contactManager.Add(contact);
+                    var result = await _contactService.Add(contact);
                     if (result > 0 && isMailSent)
                     {
                         TempData["Mesaj"] = "<div class='alert alert-success'>Mesaj Göndərildi!</div>";

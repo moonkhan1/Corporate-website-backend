@@ -6,17 +6,16 @@ namespace NetCoreWebApp1.Controllers
 {
     public class NewsController : Controller
     {
-        NewsManager newsManager = new NewsManager();
+        //DI ile servis isdifadesi
+        private readonly IRepository<News> _newsService;
 
-        //private readonly IRepository<News> _newsService;
-
-        public NewsController()
+        public NewsController(IRepository<News> newsService)
         {
-            //_newsService = newsService;
+            _newsService = newsService;
         }
         public async Task<IActionResult> Index()
         {
-            var news = await newsManager.GetAllListAsync();
+            var news = await _newsService.GetAllListAsync();
             return View(news);
         }
 
@@ -27,7 +26,7 @@ namespace NetCoreWebApp1.Controllers
                 return NotFound();
             }
 
-            var foundNews = await newsManager.Find(id);
+            var foundNews = await _newsService.Find(id);
 
             if (foundNews == null)
             {
