@@ -1,14 +1,9 @@
 ﻿using Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BL
 {
-    interface IRepository<T> : IDisposable where T : IEntity
+    public interface IRepository<T> : IDisposable where T : IEntity
     {
         //List<T> GetAll();
         //List<T> GetAll(Expression<Func<T, bool>> expression);
@@ -21,11 +16,13 @@ namespace BL
         //int Update(T entity);
         //int Remove(T entity);
 
-        IQueryable<T> GetAll();
+        List<T> GetAllList();
         IQueryable<T> GetAllIncluding(params Expression<Func<T, object>>[] includeProperties);
-        Task<List<T>> GetAllList();
+        Task<List<T>> GetAllListAsync();
+        Task<List<T>> GetAllList(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAllListIncluding(params Expression<Func<T, object>>[] includeProperties);
-        ValueTask<T> Find(int id);
+        
+        ValueTask<T> Find(int? id);
         Task<T> GetFirst(Expression<Func<T, bool>> predicate);
         IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
         Task<bool> Any(Expression<Func<T, bool>> predicate);
@@ -36,7 +33,7 @@ namespace BL
 
         Task<int> Count(Expression<Func<T, bool>> predicate);
 
-        Task Add(T entity);
+        Task<int> Add(T entity);
 
         Task Update(T entity);
 

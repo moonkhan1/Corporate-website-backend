@@ -9,10 +9,11 @@ using Entities;
 using NetCoreWebApp1.Data;
 using NetCoreWebApp1.Utils;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreWebApp1.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class SlidersController : Controller
     {
         private readonly DatabaseContext _context;

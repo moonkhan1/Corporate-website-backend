@@ -19,5 +19,6 @@ namespace Entities
 
         [Display(Name = "Mesajın Tarixi"), ScaffoldColumn(false)] // Do not create this field on page creation 
         public DateTime CreationDate{ get; set; }
+
     }
 }

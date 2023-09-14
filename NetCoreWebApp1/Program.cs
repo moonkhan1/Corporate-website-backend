@@ -1,4 +1,6 @@
-using DAL;
+﻿using DAL;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NetCoreWebApp1.Data;
 
@@ -6,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+{
+    x.LoginPath = "/Admin/Login";
+});
 
 // Database used in Admin panel
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(
@@ -35,6 +42,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // Əvvəlcə UseAuthentication(login əməliyyatları) gəlməlidir sonra UseAuthorization (icazə kontrolu)
 app.UseAuthorization();
 
 app.MapControllerRoute(

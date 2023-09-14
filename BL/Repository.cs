@@ -34,9 +34,14 @@ namespace BL
             return query;
         }
 
-        public async Task<List<T>> GetAllList()
+        public async Task<List<T>> GetAllListAsync()
         {
             return await GetAll().ToListAsync();
+        }
+
+        public Task<List<T>> GetAllList(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Where(expression).ToListAsync();
         }
 
         public Task<List<T>> GetAllListIncluding(params Expression<Func<T, object>>[] includeProperties)
@@ -46,7 +51,7 @@ namespace BL
             return query.ToListAsync();
         }
 
-        public ValueTask<T> Find(int id)
+        public ValueTask<T> Find(int? id)
         {
             return _dbSet.FindAsync(id);
         }
@@ -88,9 +93,10 @@ namespace BL
             return _dbSet.CountAsync(predicate);
         }
 
-        public async Task Add(T entity)
+        public async Task<int> Add(T entity)
         {
             await _dbSet.AddAsync(entity);
+            return _context.SaveChanges();
         }
 
         public async Task Update(T entity)
@@ -126,6 +132,18 @@ namespace BL
         {
             _context?.Dispose();
         }
+
+        public List<T> GetAllList()
+        {
+            return _dbSet.ToList();
+        }
+
+        public IQueryable<T> GetAllListQueryable()
+        {
+            return _dbSet.AsQueryable();
+        }
+
+
         //public int Add(T entity)
         //{
         //    _dbSet.Add(entity);
