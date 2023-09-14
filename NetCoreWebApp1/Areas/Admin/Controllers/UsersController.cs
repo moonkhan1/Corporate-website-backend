@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Entities;
 using NetCoreWebApp1.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetCoreWebApp1.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize]
     public class UsersController : Controller
     {
         private readonly DatabaseContext _context;
